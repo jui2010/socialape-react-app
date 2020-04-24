@@ -13,6 +13,10 @@ import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
+//getting the styles from global theme in App.js -gives error
+//const styles = (theme) => ({
+//    ...theme
+//})
 const styles = {
     form : {
         textAlign : 'center'
@@ -40,7 +44,6 @@ const styles = {
     }
 }
 
-
 class login extends Component {
     constructor(){
         super()
@@ -63,6 +66,8 @@ class login extends Component {
         axios.post('/login', userData)
         .then(res => {
             console.log(res.data)
+            //store the token on local machine, so if page refreshes.. user doesnt have to login again
+            localStorage.setItem('FBIdToken' , `Bearer ${res.data.token}`)
             this.setState({
                 loading : false
             })
