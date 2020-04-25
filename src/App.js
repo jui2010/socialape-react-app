@@ -3,10 +3,15 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import './App.css'
 import themeFile from './util/theme'
 import jwtDecode from 'jwt-decode'
+
 //pages
 import home from './pages/home'
 import login from './pages/login'
 import signup from './pages/signup'
+
+//redux
+import {Provider} from 'react-redux'
+import store from './redux/store'
 
 //components
 import Navbar from './components/Navbar'
@@ -38,18 +43,20 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-        <div className = "App">
-          <Router>
-            <Navbar />
-            <div className="container">
-              <Switch>
-                <Route exact path="/" component={home} />
-                <AuthRoute exact path="/login" component={login} authenticated={authenticated}/>
-                <AuthRoute exact path="/signup" component={signup} authenticated={authenticated}/>
-              </Switch>
-            </div>
-          </Router>
-        </div>
+        <Provider store={store}>
+          <div className = "App">
+            <Router>
+              <Navbar />
+              <div className="container">
+                <Switch>
+                  <Route exact path="/" component={home} />
+                  <AuthRoute exact path="/login" component={login} authenticated={authenticated}/>
+                  <AuthRoute exact path="/signup" component={signup} authenticated={authenticated}/>
+                </Switch>
+              </div>
+            </Router>
+          </div>
+        </Provider>
       </MuiThemeProvider>
     )
   }
