@@ -7,6 +7,8 @@ import uiReducer from './reducers/uiReducer'
 
 const initialState ={}
 
+//Thunks are the recommended middleware for basic Redux side effects logic, 
+//including complex synchronous logic that needs access to the store, and simple async logic like AJAX requests.
 const middleware = [thunk]
 
 const reducers = combineReducers({

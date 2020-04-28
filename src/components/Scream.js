@@ -6,8 +6,8 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 //MUI stuff
 import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardActions from '@material-ui/core/CardActions'
+//import CardActionArea from '@material-ui/core/CardActionArea'
+//import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 
@@ -31,7 +31,8 @@ class Scream extends Component {
         dayjs.extend(relativeTime)
 
         //destructuring, alternative is {classes} = this.props.classes
-        const {classes, scream : {body, createdAt, userImage, userHandle, screamId, likeCount, commentCount}} = this.props
+        //const {classes, scream : {body, createdAt, userImage, userHandle, screamId, likeCount, commentCount}} = this.props
+        const {classes, scream : {body, createdAt, userImage, userHandle }} = this.props
         return ( //CardContent - image gives an error in console
             <Card className= {classes.card}>
                 <CardMedia image = {userImage} title="Profile Image" className={classes.image} /> 

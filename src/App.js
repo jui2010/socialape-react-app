@@ -12,7 +12,8 @@ import signup from './pages/signup'
 //redux
 import {Provider} from 'react-redux'
 import store from './redux/store'
-
+import {SET_AUTHENTICATED } from './redux/types'
+import {logoutUser , getUserData} from './redux/actions/userActions'
 //components
 import Navbar from './components/Navbar'
 import AuthRoute from './util/AuthRoute'
@@ -21,21 +22,24 @@ import AuthRoute from './util/AuthRoute'
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 //import createTheme from '@material-ui/core/styles/createMuiTheme'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
+import axios from 'axios'
 
 const theme = createMuiTheme(themeFile)
 
 //get the token, to verify if user is logged in, so he is not able to access the login and signup pages
-let authenticated
 const token = localStorage.FBIdToken; 
 if(token){
   const decodedToken = jwtDecode(token) 
   console.log(decodedToken)
   //check if token is expired
   if(decodedToken.exp * 1000 < Date.now()){
+
+    store.dispatch(logoutUser())
     window.location.href = './login'
-    authenticated = false
   }else {
-    authenticated = true
+    store.dispatch({type : SET_AUTHENTICATED})
+    axios.defaults.headers.common['Authorization'] = token
+    store.dispatch(getUserData())
   }
 }
 
@@ -50,8 +54,8 @@ class App extends Component {
               <div className="container">
                 <Switch>
                   <Route exact path="/" component={home} />
-                  <AuthRoute exact path="/login" component={login} authenticated={authenticated}/>
-                  <AuthRoute exact path="/signup" component={signup} authenticated={authenticated}/>
+                  <AuthRoute exact path="/login" component={login} />
+                  <AuthRoute exact path="/signup" component={signup} />
                 </Switch>
               </div>
             </Router>

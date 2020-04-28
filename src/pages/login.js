@@ -5,7 +5,7 @@ import logo from '../images/favicon.ico'
 import Button from '@material-ui/core/Button'
 import { Link } from 'react-router-dom'
 
-import axios from 'axios'
+//import axios from 'axios'
 
 // MUI Stuff
 import Grid from '@material-ui/core/Grid'

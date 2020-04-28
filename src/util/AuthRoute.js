@@ -1,5 +1,9 @@
 import React from 'react'
 import {Route, Redirect} from 'react-router-dom'
+
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
+
 const AuthRoute = ({component : Component, authenticated, ...rest}) => (
 
     //check if authenticated, then redirect to home, else to login or signup 
@@ -10,4 +14,12 @@ const AuthRoute = ({component : Component, authenticated, ...rest}) => (
     />
 )
 
-export default AuthRoute 
+const mapStateToProps = (state) => ({
+    authenticated : state.user.authenticated
+})
+
+AuthRoute.propTypes = {
+    user : PropTypes.object.isRequired,
+
+}
+export default connect(mapStateToProps)(AuthRoute) 
