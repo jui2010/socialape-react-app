@@ -19,11 +19,6 @@ import CalendarToday from '@material-ui/icons/CalendarToday'
 //redux stuff
 import {connect} from 'react-redux'
 
-//getting the styles from global theme in App.js -gives error
-//const styles = (theme) => ({
-//    ...theme
-//})
-
 
 const styles = (theme) => ({
     paper: {
@@ -78,11 +73,11 @@ class Profile extends Component {
     const {classes,
             user : {credentials : {handle,createdAt, imageUrl, bio, website, location}},
             loading,
-            authenticated
+            authenticated, //authenticated remains false always 
       } = this.props
     
     //ternary operator to check if loading and then check if authenticated
-    let profileMarkup = !loading ? (authenticated ? (
+    let profileMarkup = !loading ? /*(authenticated ? */ (
       <Paper className = {classes.paper}>
         <div className = {classes.profile}>
           <div className = "image-wrapper">
@@ -133,8 +128,9 @@ class Profile extends Component {
             </Button>
         </div>
       </Paper>
-    )) : (<p>Loading</p>)
-    
+    )/*) : (<p>Loading</p>)*/
+
+
     return profileMarkup
   }
 }

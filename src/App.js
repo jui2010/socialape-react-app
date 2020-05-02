@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import './App.css'
-import themeFile from './util/theme'
+
 import jwtDecode from 'jwt-decode'
 
 //pages
@@ -20,12 +20,13 @@ import Navbar from './components/Navbar'
 import AuthRoute from './util/AuthRoute'
 
 //themes from MaterialUI
+import themeObject from './util/theme'
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 import axios from 'axios'
 
-const theme = createMuiTheme(themeFile)
+const theme = createMuiTheme(themeObject)
 
 //get the token, to verify if user is logged in, so he is not able to access the login and signup pages
 const token = localStorage.FBIdToken; 
@@ -37,7 +38,7 @@ if(token){
 
     store.dispatch(logoutUser())
     window.location.href = './login'
-  }else {
+  } else {
     store.dispatch({type : SET_AUTHENTICATED})
     axios.defaults.headers.common['Authorization'] = token
     store.dispatch(getUserData())
@@ -49,18 +50,16 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <Provider store={store}>
-          <div className = "App">
-            <Router>
-              <Navbar />
-              <div className="container">
-                <Switch>
-                  <Route exact path="/" component={home} />
-                  <AuthRoute exact path="/login" component={login} />
-                  <AuthRoute exact path="/signup" component={signup} />
-                </Switch>
-              </div>
-            </Router>
-          </div>
+          <Router>
+            <Navbar />
+            <div className="container">
+              <Switch>
+                <Route exact path="/" component={home} />
+                <AuthRoute exact path="/login" component={login} />
+                <AuthRoute exact path="/signup" component={signup} />
+              </Switch>
+            </div>
+          </Router>
         </Provider>
       </MuiThemeProvider>
     )

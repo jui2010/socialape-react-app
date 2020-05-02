@@ -72,7 +72,7 @@ const setAuthorizationHeader = (token) => {
 
 export const getUserData = () => (dispatch) => {
     dispatch({type : LOADING_USER})
-    axios.get('/users')
+    axios.get('/user')
     .then(res => {
         dispatch({
             type : SET_USER, 

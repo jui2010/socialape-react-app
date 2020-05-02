@@ -13,7 +13,7 @@ export default function(state = initialState, action){
         case SET_AUTHENTICATED :
             return {
                 ...state,
-                authenticated :true
+                authenticated : true,
             }
         case SET_UNAUTHENTICATED :
             return initialState
@@ -26,7 +26,7 @@ export default function(state = initialState, action){
         case LOADING_USER:
             return{
                 ...state,
-                loading : true
+                loading : true,
             }
         default :
             return state
