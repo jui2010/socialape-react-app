@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import {Link } from 'react-router-dom'
+import EditDetails from '../components/EditDetails'
 
 //MUI stuff
 import Button from '@material-ui/core/Button'
@@ -18,6 +19,7 @@ import LocationOn from '@material-ui/icons/LocationOn'
 import LinkIcon from '@material-ui/icons/Link'
 import CalendarToday from '@material-ui/icons/CalendarToday'
 import EditIcon from '@material-ui/icons/Edit'
+import KeyboardReturn from '@material-ui/icons/KeyboardReturn'
 
 //redux stuff
 import {connect} from 'react-redux'
@@ -67,7 +69,8 @@ const styles = (theme) => ({
       textAlign: 'center',
       '& a': {
         margin: '20px 10px'
-      }
+      },
+      float : 'right'
     }
   })
 
@@ -76,6 +79,7 @@ class Profile extends Component {
   handleImageChange = (event) => {
     //array of files, s select the first one
     const image = event.target.files[0]
+
     //send to server
     const formData = new FormData()
     formData.append('image', image, image.name)
@@ -90,11 +94,15 @@ class Profile extends Component {
     fileInput.click()
   }
 
+  handleLogout = (event) => {
+    this.props.logoutUser()
+  }
+
   render() {
     const {classes,
             user : {credentials : {handle,createdAt, imageUrl, bio, website, location}},
             loading,
-            authenticated, //authenticated remains false always 
+            //authenticated, //authenticated remains false always 
       } = this.props
     
     //ternary operator to check if loading and then check if authenticated
@@ -139,6 +147,12 @@ class Profile extends Component {
             <span>Joined {dayjs(createdAt).format('MMM YYYY')} </span>
               
           </div>
+          <Tooltip title="Logout" placement="top">
+              <IconButton onClick={this.handleLogout}>
+                <KeyboardReturn></KeyboardReturn>
+              </IconButton>
+          </Tooltip>
+          <EditDetails />
         </div>
       </Paper>
     ) : (

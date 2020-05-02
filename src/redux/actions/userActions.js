@@ -1,4 +1,4 @@
-import {SET_USER,SET_UNAUTHENTICATED, SET_ERRORS, CLEAR_ERRORS, LOADING_UI ,LOADING_USER  } from '../types'
+import {SET_USER,SET_UNAUTHENTICATED , SET_ERRORS, CLEAR_ERRORS, LOADING_UI ,LOADING_USER  } from '../types'
 
 import axios from 'axios'
 
@@ -18,7 +18,7 @@ export const loginUser = (userData, history) => (dispatch) => {
 
             //redirect to the home page, incase login is successful
             history.push('/')
- 
+            //dispatch({type : SET_AUTHENTICATED})
         })
         .catch( err => {
             dispatch({
@@ -43,7 +43,7 @@ export const signupUser = (newUserData, history) => (dispatch) => {
 
             //redirect to the home page, incase login is successful
             history.push('/')
- 
+            //dispatch({type : SET_AUTHENTICATED})
         })
         .catch( err => {
             dispatch({
@@ -78,6 +78,16 @@ const setAuthorizationHeader = (token) => {
     //store the token on local machine, so if page refreshes.. user doesnt have to login again
     localStorage.setItem('FBIdToken' , FBIdToken )
     axios.defaults.headers.common['Authorization'] = FBIdToken
+}
+
+export const editUserDetails = (userDetails) => (dispatch) => {
+    dispatch({type : LOADING_USER})
+    axios.post('/user' , userDetails)
+        .then(() => {
+            dispatch(getUserData())
+
+        })
+        .catch(err => console.log(err))
 }
 
 export const getUserData = () => (dispatch) => {

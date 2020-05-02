@@ -18,37 +18,9 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import {connect} from 'react-redux'
 import {loginUser} from '../redux/actions/userActions'
 
-
-//getting the styles from global theme in App.js -gives error
-//const styles = (theme) => ({
-//    ...theme
-//})
-const styles = {
-    form : {
-        textAlign : 'center'
-    },
-    image : {
-        margin : '20px auto 20px auto' ,
-    },
-    pageTitle : {
-        margin : '20px auto 20px auto' ,
-    },
-    textField : {
-        margin : 'auto auto 20px auto' ,
-    },
-    button : {
-        marginTop : '20px', 
-        position : 'relative'
-    },
-    customError : {
-        color : 'red',
-        fontSize : '0.8rem',
-        marginTop : 10,
-    },
-    progress : {
-        position : 'absolute',
-    }
-}
+const styles = (theme) => ({
+    ...theme.spread
+})
 
 class login extends Component {
     constructor(){
