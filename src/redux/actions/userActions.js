@@ -1,4 +1,4 @@
-import {SET_USER,SET_UNAUTHENTICATED, SET_ERRORS, CLEAR_ERRORS, LOADING_UI} from '../types'
+import {SET_USER,SET_UNAUTHENTICATED, SET_ERRORS, CLEAR_ERRORS, LOADING_UI ,LOADING_USER  } from '../types'
 
 import axios from 'axios'
 
@@ -71,6 +71,7 @@ const setAuthorizationHeader = (token) => {
 }
 
 export const getUserData = () => (dispatch) => {
+    dispatch({type : LOADING_USER})
     axios.get('/users')
     .then(res => {
         dispatch({

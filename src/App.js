@@ -14,13 +14,14 @@ import {Provider} from 'react-redux'
 import store from './redux/store'
 import {SET_AUTHENTICATED } from './redux/types'
 import {logoutUser , getUserData} from './redux/actions/userActions'
+
 //components
 import Navbar from './components/Navbar'
 import AuthRoute from './util/AuthRoute'
 
 //themes from MaterialUI
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-//import createTheme from '@material-ui/core/styles/createMuiTheme'
+
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 import axios from 'axios'
 
