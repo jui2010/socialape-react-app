@@ -41,11 +41,15 @@ const styles = {
 
 class Scream extends Component {
     likedScream = () => {
-        if(this.props.user.likes && this.props.user.likes.find(like => like.screamId === this.props.scream.screamId))
-            return true
-        else 
-            return false    
-    }
+        if (
+          this.props.user.likes &&
+          this.props.user.likes.find(
+            (like) => like.screamId === this.props.scream.screamId
+          )
+        )
+          return true;
+        else return false;
+        }
 
     likeScream = () => {
         this.props.likeScream(this.props.scream.screamId)

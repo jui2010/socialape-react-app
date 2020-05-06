@@ -21,14 +21,14 @@ export default function(state = initialState, action){
             }
         case LIKE_SCREAM:
         case UNLIKE_SCREAM:
-            //get index of the scream that is liked/unliked
-            let index = state.screams.findIndex((scream) => scream.screamId === action.payload.screamId)
-            state.screams[index] = action.payload
+            let index = state.screams.findIndex(
+            (scream) => scream.screamId === action.payload.screamId
+            )
+            state.screams[index] = action.payload;
             return {
-                ...state
+            ...state
             }
-
-        default :
+        default:
             return state
     }
 }
