@@ -45,8 +45,9 @@ export const unlikeScream = (screamId) => (dispatch) => {
 
 //delete a scream
 export const deleteScream = (screamId) => (dispatch) => {
+
     axios.delete(`/scream/${screamId}`)
-        .then((screamId) => {
+        .then(() => {
             dispatch({
                 type : DELETE_SCREAM,
                 payload : screamId
