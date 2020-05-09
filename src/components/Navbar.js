@@ -11,11 +11,11 @@ import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 
-//icons
-import AddIcon from '@material-ui/icons/Add'
+//icons 
 import HomeIcon from '@material-ui/icons/Home'
 import Notifications from '@material-ui/icons/Notifications'
 
+import PostScream from './PostScream'
 
 class Navbar extends Component {
     render() {
@@ -25,11 +25,7 @@ class Navbar extends Component {
                 <Toolbar className = "nav-container">
                     {authenticated ? (
                         <Fragment>
-                            <Tooltip title="Post a scream" placement="top">
-                                <IconButton style = {{float : 'right'}}>
-                                    <AddIcon/>
-                                </IconButton>
-                            </Tooltip>
+                            <PostScream />
 
                             <Tooltip title="Home" placement="top">
                                 <IconButton style = {{float : 'right'}}>
