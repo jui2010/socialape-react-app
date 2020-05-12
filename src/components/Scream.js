@@ -23,10 +23,11 @@ import FavoriteBorder from '@material-ui/icons/FavoriteBorder'
 
 //Redux
 import {connect} from 'react-redux'
-import {likeScream, unlikeScream} from '../redux/actions/dataActions'
+//import {likeScream, unlikeScream} from '../redux/actions/dataActions'
 
 import DeleteScream from './DeleteScream'
 import ScreamDialog from './ScreamDialog'
+import LikeButton from './LikeButton'
 
 const styles = {
     card : {
@@ -44,24 +45,6 @@ const styles = {
 }
 
 class Scream extends Component {
-    likedScream = () => {
-        if (
-          this.props.user.likes &&
-          this.props.user.likes.find(
-            (like) => like.screamId === this.props.scream.screamId
-          )
-        )
-          return true;
-        else return false;
-        }
-
-    likeScream = () => {
-        this.props.likeScream(this.props.scream.screamId)
-    }
-
-    unlikeScream = () => {
-        this.props.unlikeScream(this.props.scream.screamId)
-    }
 
     render() {
         //to get "posted 2 days ago" functionality in the scream
@@ -73,30 +56,7 @@ class Scream extends Component {
                user : {authenticated, credentials : {handle}}
             } = this.props
 
-        //if not logged in , redirect to /login page , else , check if the user that has logged in has liked/unliked the post
-        const likeButton = !authenticated ? (
-            <Tooltip title="Like" placement="top">
-                <IconButton >
-                    <Link to="/login">
-                        <FavoriteBorder color="primary" />
-                    </Link>
-                </IconButton>
-            </Tooltip>
-        ) : (
-            this.likedScream() ? (
-                <Tooltip title="Undo like" placement="top">
-                    <IconButton onClick={this.unlikeScream}>
-                        <FavoriteIcon color="primary" />
-                    </IconButton>
-                </Tooltip>
-            ) : (
-                <Tooltip title="Like" placement="top">
-                    <IconButton onClick={this.likeScream}>
-                        <FavoriteBorder color="primary" />
-                    </IconButton>
-                </Tooltip>
-            )
-        )
+        
 
         //to check if the user is deleting his own scream
         const deleteButton = authenticated && userHandle === handle ? (
@@ -110,7 +70,7 @@ class Scream extends Component {
                     {deleteButton}
                     <Typography variant="body2" color="textSecondary">{dayjs(createdAt).fromNow()}</Typography>
                     <Typography variant="body1">{body}</Typography>
-                    {likeButton}
+                        <LikeButton screamId={screamId} />
                     <span >{likeCount} Likes</span>
                     <Tooltip title="comments" placement="top">
                         <IconButton >
@@ -126,8 +86,6 @@ class Scream extends Component {
 }
 
 Scream.propTypes = {
-    likeScream : PropTypes.func.isRequired,
-    unlikeScream : PropTypes.func.isRequired,
     user : PropTypes.object.isRequired,
     scream : PropTypes.object.isRequired,
     classes : PropTypes.object.isRequired
@@ -137,9 +95,6 @@ const mapStateToProps = (state) => ({
     user : state.user
 })
 
-const mapActionsToProps = {
-    likeScream,
-    unlikeScream
-}
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Scream))
+
+export default connect(mapStateToProps)(withStyles(styles)(Scream))
 
