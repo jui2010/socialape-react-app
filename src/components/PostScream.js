@@ -14,14 +14,17 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
 //import DialogActions from '@material-ui/core/DialogActions';
+
 //Redux
 import {connect} from 'react-redux'
-import {postScream } from '../redux/actions/dataActions'
+import {postScream, clearErrors } from '../redux/actions/dataActions'
 
 const styles = (theme) => ({
     ...theme.spread,
     submitButton : {
-        position :"relative"
+        position :"relative",
+        float : 'right',
+        marginTop : 10
     },
     progressSpinner : {
         position : "absolute"
@@ -49,8 +52,11 @@ class PostScream extends Component {
         }
 
         if(!nextProps.UI.errors && !nextProps.UI.loading){
-            this.setState({body : ''})
-            this.handleClose()
+            this.setState({
+                body : '',
+                open : false,
+                errors : {}
+            })
         }
     }
     handleOpen = () => {
@@ -59,6 +65,7 @@ class PostScream extends Component {
         })
     }
     handleClose = () => {
+        this.props.clearErrors()
         this.setState({
             open : false,
             errors : {}
@@ -69,7 +76,6 @@ class PostScream extends Component {
         this.props.postScream({
             body : this.state.body 
         })
-        this.handleClose()
     }
     handleChange = (event) => {
         this.setState({
@@ -79,7 +85,7 @@ class PostScream extends Component {
 
     render(){
         const {errors } = this.state
-        const {classes, UI : { loading}} = this.props
+        const {classes, UI : { loading }} = this.props
 
         return (
             <Fragment>
@@ -134,11 +140,12 @@ class PostScream extends Component {
 
 PostScream.propTypes = {
     postScream : PropTypes.func.isRequired,
+    clearErrors : PropTypes.func.isRequired,
     UI : PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
     UI : state.UI
-}
-)
-export default connect(mapStateToProps, {postScream})(withStyles(styles)(PostScream))
+})
+
+export default connect(mapStateToProps, {postScream, clearErrors})(withStyles(styles)(PostScream))

@@ -25,7 +25,8 @@ import FavoriteBorder from '@material-ui/icons/FavoriteBorder'
 import {connect} from 'react-redux'
 import {likeScream, unlikeScream} from '../redux/actions/dataActions'
 
-import DeleteScream from '../components/DeleteScream'
+import DeleteScream from './DeleteScream'
+import ScreamDialog from './ScreamDialog'
 
 const styles = {
     card : {
@@ -117,6 +118,7 @@ class Scream extends Component {
                         </IconButton>
                     </Tooltip>
                     <span>{commentCount} comments</span>
+                    <ScreamDialog screamId={screamId} userHandle={userHandle} />
                 </CardContent>
             </Card>
         )
