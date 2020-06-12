@@ -1,7 +1,7 @@
 import {SET_SCREAMS, SET_SCREAM , LOADING_DATA, LIKE_SCREAM, 
-    UNLIKE_SCREAM, DELETE_SCREAM, LOADING_UI, STOP_LOADING_UI, SET_ERRORS, CLEAR_ERRORS, POST_SCREAM} from '../types'
+    UNLIKE_SCREAM, DELETE_SCREAM, LOADING_UI, STOP_LOADING_UI, SET_ERRORS, CLEAR_ERRORS, POST_SCREAM,
+    SUBMIT_COMMENT} from '../types'
 import axios from 'axios'
-import { bindActionCreators } from 'redux'
 
 //Get all screams
 export const getScreams = () => (dispatch) => {
@@ -48,7 +48,7 @@ export const postScream = (newScream) => (dispatch) => {
             })    
 
             //clear errors if at all there are any
-            dispatch({type : CLEAR_ERRORS})
+            dispatch(clearErrors())
         })
         .catch(err => {
             dispatch({
@@ -82,6 +82,19 @@ export const unlikeScream = (screamId) => (dispatch) => {
         .catch(err => console.log(err))
 }
 
+//comment on a scream
+export const submitComment = (screamId, commentData) => (dispatch) => {
+    axios.post(`/scream/${screamId}/comment`, commentData)
+    .then((res) => {
+        dispatch({
+            type : SUBMIT_COMMENT,
+            payload : res.data
+        })
+        dispatch(clearErrors())
+    })
+    .catch(err => console.log(err))
+}
+
 //delete a scream
 export const deleteScream = (screamId) => (dispatch) => {
 
@@ -92,7 +105,30 @@ export const deleteScream = (screamId) => (dispatch) => {
                 payload : screamId
             })
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            dispatch({
+                type : SET_ERRORS,
+                payload : err.response.data
+            })
+        })
+}
+
+//get data of the authenticated user
+export const getUserData = (userHandle) => (dispatch) => {
+    dispatch({type : LOADING_DATA})
+    axios.get(`/user/${userHandle}`)
+        .then(res => {
+            dispatch({
+                type : SET_SCREAMS,
+                payload : res.data.screams
+            })
+        })
+        .catch(() => {
+            dispatch({
+                type : SET_SCREAMS,
+                payload : null
+            })
+        })
 }
 
 //clear errors

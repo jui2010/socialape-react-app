@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import {Link } from 'react-router-dom'
-import EditDetails from './EditDetails'
+import EditDetails from '../components/EditDetails'
 
 //MUI stuff
 import Button from '@material-ui/core/Button'
@@ -58,11 +58,6 @@ const styles = (theme) => ({
       '& hr': {
         border: 'none',
         margin: '0 0 10px 0'
-      },
-      '& svg.button': {
-        '&:hover': {
-          cursor: 'pointer'
-        }
       }
     },
     buttons: {
@@ -74,49 +69,14 @@ const styles = (theme) => ({
     }
   })
 
-class Profile extends Component {
-
-  handleImageChange = (event) => {
-    //array of files, s select the first one
-    const image = event.target.files[0]
-
-    //send to server
-    const formData = new FormData()
-    formData.append('image', image, image.name)
-
-    this.props.uploadImage(formData)
-
-  }
-
-  //function to trigger the image upload after clicking the edit icon
-  handleEditPicture = () => {
-    const fileInput = document.getElementById('imageInput')
-    fileInput.click()
-  }
-
-  handleLogout = (event) => {
-    this.props.logoutUser()
-  }
-
-  render() {
-    const {classes,
-            user : {credentials : {handle,createdAt, imageUrl, bio, website, location}},
-            loading,
-            //authenticated, //authenticated remains false always 
-      } = this.props
-    
-    //ternary operator to check if loading and then check if authenticated
-    let profileMarkup = !loading ? /*(authenticated ? */ (
-      <Paper className = {classes.paper}>
+const StaticProfile = (props) => {
+    const {classes, profile :  {handle,createdAt, imageUrl, bio, website, location}} = props
+    return (
+    <Paper className = {classes.paper}>
         <div className = {classes.profile}>
           <div className = "image-wrapper">
               <img src = {imageUrl} alt ="profile" className="profile-image"/>
-              <input type="file" id="imageInput" onChange={this.handleImageChange} hidden="hidden"/> 
-              <Tooltip title="Edit profile picture" placement="top">
-                <IconButton onClick={this.handleEditPicture} className = "button">
-                  <EditIcon color ="primary" />
-                </IconButton>
-              </Tooltip>
+              
           </div>
           <hr />
 
@@ -147,33 +107,9 @@ class Profile extends Component {
             <span>Joined {dayjs(createdAt).format('MMM YYYY')} </span>
               
           </div>
-          <Tooltip title="Logout" placement="top">
-              <IconButton onClick={this.handleLogout}>
-                <KeyboardReturn></KeyboardReturn>
-              </IconButton>
-          </Tooltip>
-          <EditDetails />
         </div>
       </Paper>
-    ) : (
-      <Paper className={classes.paper}>
-        <Typography variant="body2" align="center">
-            No profile, please login
-        </Typography>
-        <div className ={classes.buttons}>
-            <Button variant="contained" color="primary" component={Link} to="/login">
-                Login
-            </Button>
-            <Button variant="contained" color="primary" component={Link} to="/signup">
-                Signup
-            </Button>
-        </div>
-      </Paper>
-    )/*) : (<p>Loading</p>)*/
-
-
-    return profileMarkup
-  }
+    )
 }
 
 const mapStateToProps = (state) => ({
@@ -182,11 +118,9 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {logoutUser, uploadImage} 
 
-Profile.propTypes = {
-  logoutUser : PropTypes.func.isRequired,
-  uploadImage : PropTypes.func.isRequired,
-  user : PropTypes.object.isRequired,
+StaticProfile.propTypes = {
+  profile : PropTypes.object.isRequired,
   classes : PropTypes.object.isRequired
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Profile))
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(StaticProfile))

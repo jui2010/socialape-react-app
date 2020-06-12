@@ -8,6 +8,7 @@ import jwtDecode from 'jwt-decode'
 import home from './pages/home'
 import login from './pages/login'
 import signup from './pages/signup'
+import user from './pages/user'
 
 //redux
 import {Provider} from 'react-redux'
@@ -57,6 +58,7 @@ class App extends Component {
                 <Route exact path="/" component={home} />
                 <AuthRoute exact path="/login" component={login} />
                 <AuthRoute exact path="/signup" component={signup} />
+                <Route exact path="/users/:handle" component={user} />
               </Switch>
             </div>
           </Router>

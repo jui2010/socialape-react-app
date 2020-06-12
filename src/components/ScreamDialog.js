@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
-import MyButton from '../util/MyButton';
+import MyButton from '../util/MyButton'
 import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
+import Comments from './Comments'
+import CommentForm from './CommentForm'
 
 //MUI stuff
 import Button from '@material-ui/core/Button'
@@ -25,15 +27,11 @@ import Tooltip from '@material-ui/core/Tooltip'
 
 //Redux
 import {connect} from 'react-redux'
-import { getScream } from '../redux/actions/dataActions'
-import LikeButton from './LikeButton';
+import { getScream,clearErrors } from '../redux/actions/dataActions'
+import LikeButton from './LikeButton'
 
 const styles = (theme) => ({
     ...theme.spread,
-    invisibleSeperator : {
-        border : 'none',
-        margin : 4,
-    },
     profileImage : {
         maxWidth : 200,
         height : 200,
@@ -73,11 +71,12 @@ class ScreamDialog extends Component {
             open : false,
             errors : {}
         })
+        this.props.clearErrors()
     }
 
     render(){
         const {classes , 
-               scream : {screamId , body , createdAt, likeCount, commentCount, userImage, userHandle} , 
+               scream : {screamId , body , createdAt, likeCount, commentCount, userImage, userHandle, comments} , 
                UI : {loading}} = this.props
 
         const dialogMarkup = loading ? (
@@ -111,6 +110,9 @@ class ScreamDialog extends Component {
                     </Tooltip>
                     <span>{commentCount} comments</span>
                 </Grid>
+                <hr className={classes.visibleSeperator} />
+                <CommentForm screamId={screamId} />
+                <Comments comments={comments} />
             </Grid>
         )
 
@@ -137,6 +139,7 @@ class ScreamDialog extends Component {
 
 ScreamDialog.propTypes = {
     getScream : PropTypes.func.isRequired,
+    clearErrors :  PropTypes.func.isRequired,
     screamId : PropTypes.string.isRequired,
     userHandle : PropTypes.string.isRequired,
     scream :PropTypes.object.isRequired,
@@ -148,4 +151,4 @@ const mapStateToProps = (state) => ({
     UI : state.UI
 })
 
-export default connect(mapStateToProps, {getScream})(withStyles(styles)(ScreamDialog))
+export default connect(mapStateToProps, {getScream, clearErrors})(withStyles(styles)(ScreamDialog))
